@@ -4,7 +4,7 @@ const db = require("./db.js");
 const { ipcMain } = require("electron");
 const docx = require("./docx");
 
-docx.dookie("fuit gummy");
+docx("fuit gummy");
 
 ipcMain.handle("create-item", (event, args) => {
   db.Item.sync();

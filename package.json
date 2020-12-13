@@ -1,0 +1,21 @@
+{
+  "name": "Sqlite-electron",
+  "version": "1.0.0",
+  "description": "sqlite test",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "St-Creamer",
+  "license": "MIT",
+  "dependencies": {
+    "sequelize": "^6.3.5",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "electron": "^11.0.4",
+    "electron-builder": "^22.9.1"
+  }
+}

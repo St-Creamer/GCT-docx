@@ -9,7 +9,7 @@ module.exports = function dookie(sampletext) {
     children: [
       new Paragraph({
         children: [
-          new TextRun("bababoui"),
+          new TextRun("bababoui \n \r"),
           new TextRun({
             text: sampletext,
             bold: true,

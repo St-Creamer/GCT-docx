@@ -1,5 +1,5 @@
 const { app, BrowserWindow } = require("electron");
-const db = require('./db')
+const db = require("./db");
 const { ipcMain } = require("electron");
 const docx = require("./docx");
 const items = require("./models/items");
@@ -31,25 +31,21 @@ function errorwindow() {
   win.loadFile("src/error.html");
 }
 
-
-
-if(db.connect){
+if (db.connect) {
   //ipc methods
   ipcMain.handle("create-item", (event, args) => {
     db.Item.sync();
-    db.Item.create({ Abstract: args.Abstract, Dp: args.Dp })
-      .then(()=>{
-        return true;
-      });
-      return false;
+    db.Item.create({ Abstract: args.Abstract, Dp: args.Dp }).then(() => {
+      return true;
+    });
+    return false;
   });
-  
-  ipcMain.handle("List-Items",(e) =>{
-    db.Item.findAll()
-      .then((data)=>{
-        console.log(data)
-        return data;
-      });
+
+  ipcMain.handle("List-Items", async (e) => {
+    const reuslt = await db.Item.findAll().then((data) => {
+      return data;
+    });
+    return reuslt;
   });
 
   //electron windows
@@ -66,7 +62,7 @@ if(db.connect){
       createWindow();
     }
   });
-}else{
+} else {
   app.whenReady().then(errorwindow);
 
   app.on("window-all-closed", () => {

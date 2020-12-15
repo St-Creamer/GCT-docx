@@ -2,9 +2,8 @@ const { app, BrowserWindow } = require("electron");
 const db = require('./db')
 const { ipcMain } = require("electron");
 const docx = require("./docx");
-
-docx("fuit gummy");
-
+const items = require("./models/items");
+const { Item } = require("./db");
 
 //index window
 function createWindow() {
@@ -18,6 +17,7 @@ function createWindow() {
 
   win.loadFile("src/index.html");
 }
+
 //error window
 function errorwindow() {
   const win = new BrowserWindow({
@@ -37,9 +37,20 @@ if(db.connect){
   //ipc methods
   ipcMain.handle("create-item", (event, args) => {
     db.Item.sync();
-    db.Item.create({ Amount: args.Amount, Disc: args.Disc })//this is a promise
+    db.Item.create({ Abstract: args.Abstract, Dp: args.Dp })
+      .then(()=>{
+        return true;
+      });
+      return false;
   });
   
+  ipcMain.handle("List-Items",(e) =>{
+    db.Item.findAll()
+      .then((data)=>{
+        console.log(data)
+        return data;
+      });
+  });
 
   //electron windows
   app.whenReady().then(createWindow);

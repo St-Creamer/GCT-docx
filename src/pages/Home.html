@@ -2,20 +2,16 @@
 <body>
     <h3>add new item</h3>
     <label>Amount : </label>
-    <input type="text" size="10" id="amount">
+    <input type="text" size="10" id="abstract">
     <br>
     <label>Disc : </label>
-    <input type="text" size="10" id="disc">
+    <input type="checkbox" id="dp">
     <button id="xd">add item</button>
+    <br/>
+    <p>get all items</p>
+    <button id="getitems">get items</button>
+    <pre id="items"></pre>
 
-    <script>
-        document.getElementById("xd").addEventListener('click',()=>{
-            const {ipcRenderer} = require('electron');
-            const args = {Amount : document.getElementById("amount").value , Disc : document.getElementById("disc").value}
-            ipcRenderer.invoke('create-item',args);
-            alert('item added')
-        })
-
-    </script>
+    <script src="./Home.js"></script>
 </body>
 </html>

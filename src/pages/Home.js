@@ -1,4 +1,5 @@
 const { ipcRenderer } = require("electron");
+const writeDocx = require("../docx");
 
 document.getElementById("xd").addEventListener("click", () => {
   const args = {
@@ -7,21 +8,12 @@ document.getElementById("xd").addEventListener("click", () => {
   };
   if (ipcRenderer.invoke("create-item", args)) {
     alert("item created");
+    writeDocx(args.Abstract);
   } else {
     alert("item not created something went wrong");
   }
 });
 
-document.getElementById("getitems").addEventListener("click", () => {
-  ipcRenderer.invoke("List-Items").then((list) => {
-    if (list != null) {
-      console.log(list);
-      const element = document.getElementById("items");
-      list.forEach(item => {
-          element.innerText +="item"+ item.dataValues.id+ ": "+ item.dataValues.Abstract + "\n"
-      });
-    } else {
-      alert("something went wrong cant fetch data");
-    }
-  });
+document.getElementById("homepage").addEventListener("click", () => {
+  window.location.href = "../index.html";
 });

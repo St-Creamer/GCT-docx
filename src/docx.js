@@ -1,7 +1,7 @@
 const fs = require("fs");
 const { Document, Packer, Paragraph, TextRun } = require("docx");
 
-module.exports = function dookie(sampletext) {
+module.exports = function writeDocx(sampletext) {
   const doc = new Document();
 
   doc.addSection({

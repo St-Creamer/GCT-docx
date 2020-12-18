@@ -3,7 +3,7 @@ const db = require("./db");
 const { ipcMain } = require("electron");
 const docx = require("./docx");
 const items = require("./models/items");
-const { Item } = require("./db");
+const { Item ,sequelize} = require("./db");
 
 //index window
 function createWindow() {
@@ -33,14 +33,19 @@ function errorwindow() {
 
 if (db.connect) {
   //ipc methods
+  //creating items
   ipcMain.handle("create-item", (event, args) => {
     db.Item.sync();
-    db.Item.create({ Abstract: args.Abstract, Dp: args.Dp }).then(() => {
-      return true;
+    db.Item.create({ Title : args.Title , Abstract: args.Abstract, Dp: args.Dp }).then(() => {
+      //creating corresponding docx file
+      if(docx(args.Abstract)){
+        return true;
+      }
+      return false;
     });
     return false;
   });
-
+  //getting items
   ipcMain.handle("List-Items", async (e) => {
     const reuslt = await db.Item.findAll().then((data) => {
       return data;

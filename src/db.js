@@ -8,12 +8,12 @@ const sequelize = new Sequelize({
 const connect = ()=>{
   try{
     sequelize.authenticate();
+    sequelize.sync()
     return true;
    }catch(err){
      console.error('unable to connect to db')
      return false;
    }
-
 }
 
 const db = {};

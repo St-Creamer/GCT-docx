@@ -3,6 +3,7 @@ const { Document, Packer, Paragraph, TextRun } = require("docx");
 
 module.exports = function writeDocx(sampletext) {
   const doc = new Document();
+  const dir = "./documents/"+sampletext+".docx";
 
   doc.addSection({
     properties: {},
@@ -18,8 +19,15 @@ module.exports = function writeDocx(sampletext) {
       }),
     ],
   });
-
-  Packer.toBuffer(doc).then((buffer) => {
-    fs.writeFileSync("my document.docx", buffer);
-  });
+  if (!fs.existsSync("./documents")){
+    fs.mkdirSync("./documents");
+  }
+  Packer.toBuffer(doc).
+    then((buffer) => {
+      fs.writeFileSync(dir, buffer);
+    })
+    .catch((err)=>{
+      console.log("issue with creating docx"+err)
+      return false;
+    });
 };

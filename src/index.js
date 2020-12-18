@@ -5,14 +5,14 @@ document.getElementById("btn").addEventListener("click", () => {
 });
 
 document.getElementById("getitems").addEventListener("click", () => {
-  console.log("ayyyy")
+  //get all itmes and display them
   ipcRenderer.invoke("List-Items").then((list) => {
     if (list != null) {
       console.log(list);
-      const element = document.getElementById("items");
+      let element = document.getElementById("items");
+      element.innerText = ""
       list.forEach((item) => {
-        element.innerText +=
-          "item" + item.dataValues.id + ": " + item.dataValues.Abstract + "\n";
+        element.innerText += "item" + item.dataValues.id + ": " + item.dataValues.Title + "\n";
       });
     } else {
       alert("something went wrong cant fetch data");

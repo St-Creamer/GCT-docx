@@ -1,7 +1,7 @@
 const { ipcRenderer } = require("electron");
 
 document.getElementById("btn").addEventListener("click", () => {
-  window.location.href = "pages/Home.html";
+  window.location.href = "pages/AddItem/AddItem.html";
 });
 
 document.getElementById("getitems").addEventListener("click", () => {

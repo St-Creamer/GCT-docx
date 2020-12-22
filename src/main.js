@@ -35,6 +35,7 @@ if (db.connect) {
   //ipc methods
   //creating items
   ipcMain.handle("create-item", (event, args) => {
+
     db.Item.sync();
     db.Item.create({ Title : args.Title , Abstract: args.Abstract, Dp: args.Dp }).then(() => {
       //creating corresponding docx file

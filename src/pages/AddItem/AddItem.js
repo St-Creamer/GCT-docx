@@ -1,6 +1,6 @@
 const { ipcRenderer } = require("electron");
 
-document.getElementById("xd").addEventListener("click", (e) => {
+document.getElementById("submit").addEventListener("click", (e) => {
   e.preventDefault();
   const title = document.getElementById("title"); 
   const abstract = document.getElementById("abstract"); 

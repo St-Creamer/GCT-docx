@@ -1,22 +1,4 @@
-*{box-sizing: border-box;}
-body ,html{
-    padding: 0;
-}
-body{
-    font-family: Calibri, sans-serif;
-}
-button{
-    height: 35px;
-    width: 100%;
-    border: 2px solid rgb(69, 98, 161);
-    background-color: #ffffff;
-    transition: all .2s ease-out;
-    font-size: 16px;
-}
-button:hover{
-    background-color: rgb(69, 98, 161);
-    color: #ffffff;
-}
+@import "../../base.css";
 .container-AddItem{
     margin: 0px auto;
     width: 40%;
@@ -39,13 +21,7 @@ input{
 input::selection{
     border: 1px solid black;
 }
-#homepage{
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    font-size: 24px;
-}
-#xd{
+#submit{
     width: 150px;
     margin: 0 auto;
     justify-self: center;

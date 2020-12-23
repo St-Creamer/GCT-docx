@@ -4,6 +4,7 @@ const { ipcMain } = require("electron");
 const docx = require("./docx");
 const items = require("./models/items");
 const { Item ,sequelize} = require("./db");
+const fs = require('fs')
 
 //index window
 function createWindow() {
@@ -38,11 +39,18 @@ if (db.connect) {
 
     db.Item.sync();
     db.Item.create({ Title : args.Title , Abstract: args.Abstract, Dp: args.Dp }).then(() => {
-      //creating corresponding docx file
-      if(docx(args.Abstract)){
-        return true;
-      }
-      return false;
+      // //creating corresponding docx file
+      // if(docx(args.Abstract)){
+      //   return true;
+      // }
+      // return false;
+
+      //copying the template
+      fs.copyFile('./src/Template.docx',`./documents/${args.Title}.docx`,(err)=>{
+        if(err) throw err;
+        console.log('file copied')
+      })
+      return true;
     });
     return false;
   });

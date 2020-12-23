@@ -2,11 +2,14 @@ const { ipcRenderer } = require("electron");
 
 document.getElementById("xd").addEventListener("click", (e) => {
   e.preventDefault();
+  const title = document.getElementById("title"); 
+  const abstract = document.getElementById("abstract"); 
+  const dp = document.getElementById("dp"); 
   //making args object to send multiple vars as arguments
   const args = {
-    Title: document.getElementById("title").value,
-    Abstract: document.getElementById("abstract").value,
-    Dp: document.getElementById("dp").value,
+    Title: title.value,
+    Abstract: abstract.value,
+    Dp: dp.value,
   };
   if(args.Title == ""|| args.Abstract ==""){
     alert("Must fill fields")
@@ -18,6 +21,9 @@ document.getElementById("xd").addEventListener("click", (e) => {
   } else {
     alert("item not created something went wrong");
   }
+  title.value = "";
+  abstract.value = "";
+  dp.value = false;
 });
 
 document.getElementById("homepage").addEventListener("click", () => {

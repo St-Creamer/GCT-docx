@@ -1,10 +1,6 @@
-const { app, BrowserWindow } = require("electron");
-const db = require("./db");
-const { ipcMain } = require("electron");
-const docx = require("./docx");
-const items = require("./models/items");
-const { Item ,sequelize} = require("./db");
-const fs = require('fs')
+const { app, BrowserWindow, ipcMain } = require("electron");
+const db  = require("./db.js");
+const fs  = require('fs');
 
 //index window
 function createWindow() {

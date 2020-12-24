@@ -8,10 +8,6 @@
     flex-direction: column;
     justify-content: space-around;
 }
-button:hover{
-    background-color: rgb(69, 98, 161);
-    color: #ffffff;
-}
 .title{
     color: rgb(69, 98, 161);
     text-align: center;

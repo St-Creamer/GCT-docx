@@ -1,4 +1,7 @@
 *{box-sizing: border-box;}
+:root{
+    --primary : rgb(69, 98, 161);
+}
 body ,html{
     padding: 0;
 }
@@ -8,13 +11,13 @@ body{
 button{
     height: 35px;
     width: 100%;
-    border: 2px solid rgb(69, 98, 161);
+    border: 2px solid var(--primary);
     background-color: #ffffff;
     transition: all .2s ease-out;
     font-size: 16px;
 }
 button:hover{
-    background-color: rgb(69, 98, 161);
+    background-color:var(--primary);
     color: #ffffff;
 }
 #homepage{

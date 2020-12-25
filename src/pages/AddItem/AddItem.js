@@ -4,12 +4,14 @@ document.getElementById("submit").addEventListener("click", (e) => {
   e.preventDefault();
   const title = document.getElementById("title"); 
   const abstract = document.getElementById("abstract"); 
-  const dp = document.getElementById("dp"); 
+  let dp;
+  document.getElementById("dp").checked ? dp=1 : dp = 0;
+  console.log(dp)
   //making args object to send multiple vars as arguments
   const args = {
     Title: title.value,
     Abstract: abstract.value,
-    Dp: dp.value,
+    Dp: dp
   };
   if(args.Title == ""|| args.Abstract ==""){
     alert("Must fill fields")

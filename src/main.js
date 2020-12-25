@@ -36,12 +36,15 @@ if (db.connect) {
     db.Item.sync();
     db.Item.create({ Title : args.Title , Abstract: args.Abstract, Dp: args.Dp }).then(() => {
       // //creating corresponding docx file
-      // if(docx(args.Abstract)){
+      // if(docx(args.Title)){
       //   return true;
       // }
       // return false;
 
       //copying the template
+      if (!fs.existsSync("./documents")){
+        fs.mkdirSync("./documents");
+      }
       fs.copyFile('./src/Template.docx',`./documents/${args.Title}.docx`,(err)=>{
         if(err) throw err;
         console.log('file copied')

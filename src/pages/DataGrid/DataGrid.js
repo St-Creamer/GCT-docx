@@ -15,7 +15,13 @@ ipcRenderer.invoke("List-Items").then((list) => {
   .then(()=>{  
     // let the grid know which columns and what data to use
     let rowdata = data.map(element=>{
-      return {Title : element.Title , Abstract : element.Abstract , Dp : element.Dp}
+      let x;
+      if(element.Dp == 1){
+        x = true;
+      }else{
+        x = false
+      }
+      return {Title : element.Title , Abstract : element.Abstract , Dp : x}
     });
     
     var columnDefs = [
@@ -26,11 +32,21 @@ ipcRenderer.invoke("List-Items").then((list) => {
 
     var gridOptions = {
       columnDefs: columnDefs,
-      rowData: rowdata
+      rowData: rowdata,
+      onGridReady:(params)=>{
+        params.api.sizeColumnsToFit();
+        window.addEventListener('resize' , ()=>{
+          setTimeout(()=>{
+            params.api.sizeColumnsToFit();
+          })
+        })
+      }
+      
     };
 
     var eGridDiv = document.querySelector('#myGrid');
     new Grid(eGridDiv, gridOptions);
+    gridOptions.api.sizeColumnsToFit();
   })
   .catch(er=>{
     console.log(er)

@@ -26,3 +26,18 @@ button:hover{
     border-radius: 50%;
     font-size: 24px;
 }
+input{
+    border-radius: 0;
+    border: 1px solid black;
+    height: 25px;
+    width: 200px;
+}
+input::selection{
+    border: 1px solid black;
+}
+textarea{
+    height: 100px;
+    width: 200px;
+    border: 1px solid black;
+    border-radius: 0;
+}

@@ -9,6 +9,7 @@ function createWindow() {
     height: 600,
     webPreferences: {
       nodeIntegration: true,
+      enableRemoteModule : true
     },
   });
 
@@ -42,10 +43,10 @@ if (db.connect) {
       // return false;
 
       //copying the template
-      if (!fs.existsSync("./documents")){
-        fs.mkdirSync("./documents");
+      if (!fs.existsSync("./docx files")){
+        fs.mkdirSync("./docx files");
       }
-      fs.copyFile('./src/Template.docx',`./documents/${args.Title}.docx`,(err)=>{
+      fs.copyFile('./Template/Template.docx',`./docx files/${args.Title}.docx`,(err)=>{
         if(err) throw err;
         console.log('file copied')
       })

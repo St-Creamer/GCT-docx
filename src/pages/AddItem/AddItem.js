@@ -1,7 +1,13 @@
 const { ipcRenderer } = require("electron");
+const fs  = require('fs');
+
 
 document.getElementById("submit").addEventListener("click", (e) => {
   e.preventDefault();
+  if (!fs.existsSync("./Template")){
+    alert("please set template");
+    return;
+  }
   const title = document.getElementById("title"); 
   const abstract = document.getElementById("abstract"); 
   let dp;

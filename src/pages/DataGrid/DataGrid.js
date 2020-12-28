@@ -57,6 +57,13 @@ ipcRenderer.invoke("List-Items").then((list) => {
 
 
 document.getElementById("homepage").addEventListener("click", () => {
-    window.location.href = "../../index.html";
-  });
-  
+  window.location.href = "../../index.html";
+});
+
+document.getElementById("opendir").addEventListener('click',()=>{
+  const path = require("path");
+  const {exec ,spawn} = require("child_process");
+  const {PROJECT_DIR} = require("../../../settings");
+  console.log(path.join("../",PROJECT_DIR, `docx files`))
+  spawn(`explorer`, [`"${path.join(PROJECT_DIR, `docx files`)}"`], { windowsVerbatimArguments: true });
+})

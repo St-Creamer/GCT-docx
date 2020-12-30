@@ -17,8 +17,6 @@ const connect = ()=>{
 }
 
 const db = {};
-
-
 db.sequelize = sequelize;
 db.sequelize = Sequelize;
 db.connect = connect;

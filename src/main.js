@@ -1,6 +1,8 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const db  = require("./db.js");
+const setDir = require("./config.js")
 const fs  = require('fs');
+const path = require('path')
 
 //index window
 function createWindow() {
@@ -13,7 +15,11 @@ function createWindow() {
     },
   });
 
-  win.loadFile("src/index.html");
+  win.loadFile("src/pages/Index/index.html");
+  win.once("ready-to-show",()=>{
+    console.log("onload fn");
+    setDir();
+  })
 }
 
 //error window
@@ -26,34 +32,29 @@ function errorwindow() {
     },
   });
 
-  win.loadFile("src/error.html");
+  win.loadFile("src/pages/error.html");
 }
 
 if (db.connect) {
   //ipc methods
   //creating items
   ipcMain.handle("create-item", (event, args) => {
-
+    //db entry
     db.Item.sync();
-    db.Item.create({ Title : args.Title , Abstract: args.Abstract, Dp: args.Dp }).then(() => {
-      // //creating corresponding docx file
-      // if(docx(args.Title)){
-      //   return true;
-      // }
-      // return false;
-
-      //copying the template
-      if (!fs.existsSync("./docx files")){
-        fs.mkdirSync("./docx files");
+    //copying the template
+    fs.copyFile(`${path.join(process.env.AppData,`.docx Template`)}/Template.docx`,`${path.join(process.env.AppData, `.docx Documents`)}/${args.Title}.docx`,(err)=>{
+      if(err){
+         throw err;
+      }else{
+        db.Item.create({ Title : args.Title , Abstract: args.Abstract, Dp: args.Dp })
+          .then(()=>{
+            console.log('file copied');
+            return true;
+        });
       }
-      fs.copyFile('./Template/Template.docx',`./docx files/${args.Title}.docx`,(err)=>{
-        if(err) throw err;
-        console.log('file copied')
-      })
-      return true;
     });
-    return false;
   });
+
   //getting items
   ipcMain.handle("List-Items", async (e) => {
     const reuslt = await db.Item.findAll().then((data) => {
@@ -70,13 +71,12 @@ if (db.connect) {
       app.quit();
     }
   });
-
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
   });
-} else {
+  } else {
   app.whenReady().then(errorwindow);
 
   app.on("window-all-closed", () => {

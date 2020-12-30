@@ -13,7 +13,8 @@ ipcRenderer.invoke("List-Items").then((list) => {
     }
   })
   .then(()=>{  
-    // let the grid know which columns and what data to use
+    //Grid setup
+    //changing object format to suit ag-grid setup
     let rowdata = data.map(element=>{
       let x;
       if(element.Dp == 1){
@@ -21,18 +22,21 @@ ipcRenderer.invoke("List-Items").then((list) => {
       }else{
         x = false
       }
-      return {Title : element.Title , Abstract : element.Abstract , Dp : x}
+      return {id:element.id ,Title : element.Title , Abstract : element.Abstract , Dp : x}
     });
-    
+    //column definitions
     var columnDefs = [
+      {headerName:"id", field:'id'},
       { headerName: 'Title', field: 'Title' },
       { headerName: 'Abstract', field: 'Abstract' },
       { headerName: 'Dp', field: 'Dp' }
     ];
-
+    //setting grid options
     var gridOptions = {
       columnDefs: columnDefs,
       rowData: rowdata,
+      rowSelection : 'single',
+      //dynamic grid size
       onGridReady:(params)=>{
         params.api.sizeColumnsToFit();
         window.addEventListener('resize' , ()=>{
@@ -43,7 +47,7 @@ ipcRenderer.invoke("List-Items").then((list) => {
       }
       
     };
-
+    //instantiating grid object and assigning the corresponding data and grid options
     var eGridDiv = document.querySelector('#myGrid');
     new Grid(eGridDiv, gridOptions);
     gridOptions.api.sizeColumnsToFit();
@@ -52,18 +56,16 @@ ipcRenderer.invoke("List-Items").then((list) => {
     console.log(er)
   });
 
-// specify the data
-
-
-
+  //homepage function
 document.getElementById("homepage").addEventListener("click", () => {
-  window.location.href = "../../index.html";
+  window.location.href = "../Index/index.html";
 });
 
+//reveal in explorer function
 document.getElementById("opendir").addEventListener('click',()=>{
   const path = require("path");
+  const fs = require('fs')
   const {exec ,spawn} = require("child_process");
-  const {PROJECT_DIR} = require("../../../settings");
-  console.log(path.join("../",PROJECT_DIR, `docx files`))
-  spawn(`explorer`, [`"${path.join(PROJECT_DIR, `docx files`)}"`], { windowsVerbatimArguments: true });
+  console.log(process.env.AppData)
+  spawn(`explorer`, [`"${path.join(process.env.AppData, `.docx Documents`)}"`], { windowsVerbatimArguments: true });
 })

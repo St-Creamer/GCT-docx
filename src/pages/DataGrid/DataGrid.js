@@ -1,7 +1,9 @@
 const { Grid }  = require('ag-grid-community');
 const {ipcRenderer} = require('electron');
+const db = require('../../db.js')
 
 let data = [];
+let selectedrowid;
 
 ipcRenderer.invoke("List-Items").then((list) => {
     if (list != null) {
@@ -36,6 +38,8 @@ ipcRenderer.invoke("List-Items").then((list) => {
       columnDefs: columnDefs,
       rowData: rowdata,
       rowSelection : 'single',
+      //selection
+      onSelectionChanged: onSelectionChanged,
       //dynamic grid size
       onGridReady:(params)=>{
         params.api.sizeColumnsToFit();
@@ -45,8 +49,14 @@ ipcRenderer.invoke("List-Items").then((list) => {
           })
         })
       }
-      
     };
+
+    //row selection function
+    function onSelectionChanged() {
+      var selectedRows = gridOptions.api.getSelectedRows();
+      selectedrowid = selectedRows[0].id
+    }
+
     //instantiating grid object and assigning the corresponding data and grid options
     var eGridDiv = document.querySelector('#myGrid');
     new Grid(eGridDiv, gridOptions);
@@ -59,6 +69,36 @@ ipcRenderer.invoke("List-Items").then((list) => {
   //homepage function
 document.getElementById("homepage").addEventListener("click", () => {
   window.location.href = "../Index/index.html";
+});
+
+//db fetch function
+const getItem =(ItemId)=>{
+  let data;
+  return db.Item.findOne({
+    where:{
+      id:ItemId
+    }
+  })
+  .then((res)=>{
+    if(!res){
+      return "data not found"
+    }
+    return res.dataValues
+  })
+}
+
+//display function
+document.getElementById("display").addEventListener("click",async() => {
+  if(selectedrowid>0){
+    await getItem(selectedrowid)
+      .then((data)=>{
+        console.log(data)
+        alert("slected row id: "+data.id)
+      });
+  }
+  else{
+    alert("Select a row first")
+  }
 });
 
 //reveal in explorer function

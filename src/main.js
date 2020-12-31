@@ -17,7 +17,6 @@ function createWindow() {
 
   win.loadFile("src/pages/Index/index.html");
   win.once("ready-to-show",()=>{
-    console.log("onload fn");
     setDir();
   })
 }
